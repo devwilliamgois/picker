@@ -1,49 +1,51 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View,Picker} from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+export default class App extends Component{
+  constructor(props){
+    super(props);
 
-type Props = {};
-export default class App extends Component<Props> {
+    this.state = {'servico':0,
+    servicos:[
+      {"nome":'Alinhamento',"valor":30},
+      {"nome":'Balanceamento',"valor":40},
+      {"nome":'Rodizio',"valor":100}
+    ]  
+  }
+  }
   render() {
+    let servicoItens = this.state.servicos.map((v, k) => {
+      return(
+          <Picker.Item key={k} value={k} label={v.nome}/>
+      )
+    });
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+      <View style={styles.body}>
+      <Text style={styles.logo}>Auto peças Jose</Text>
+
+          <Picker selectedValue={this.state.servico} onValueChange={(itemValue, intemIndex) => this.setState({'servico':itemValue})}>
+                {servicoItens}
+          </Picker>
+      <Text style={styles.valor}>R$ {this.state.servicos[this.state.servico].valor}</Text>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+  body: {
+    flex:1,
+    paddingTop: 10,
+    backgroundColor:"#CCCCCC"
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  logo:{
+    fontSize:18,
+    textAlign:'center',
+    marginBottom:20
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  valor:{
+    fontSize:18,
+    textAlign:'center'
+  }
 });
